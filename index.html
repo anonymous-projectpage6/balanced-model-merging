@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MS-LAC: Balanced Many-Shot Model Merging</title>
+  <title>MS-LAC | Loss-Gap-Aware Many-Shot Model Merging</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- Hero -->
+<!-- ================= HERO ================= -->
 <section class="hero">
   <h1>Towards Balanced Model Merging</h1>
   <h2>Loss-Gap-Aware Many-Shot Model Merging</h2>
@@ -17,6 +18,11 @@
     <span class="affil"><sup>1</sup>Your Institution</span>
   </p>
 
+  <p class="tagline">
+    Iterative, loss-aware model merging that mitigates information erasure
+    and improves worst-case multi-task performance.
+  </p>
+
   <div class="buttons">
     <a href="#" class="btn">📄 Paper</a>
     <a href="#" class="btn">💻 Code</a>
@@ -24,71 +30,130 @@
   </div>
 </section>
 
-<!-- Abstract -->
+<hr/>
+
+<!-- ================= ABSTRACT ================= -->
 <section>
   <h3>Abstract</h3>
   <p>
-    Model merging is a practical post-training strategy for constructing a single
-    multi-task LLM by combining task-specialized models. However, most existing
-    approaches rely on post-hoc one-shot merging, which often suffers from
-    <em>information erasure</em> caused by task interference.
+    Model merging has emerged as a practical post-training paradigm for constructing
+    a single multi-task large language model by combining task-specialized models.
+    However, most existing approaches rely on post-hoc one-shot merging,
+    which often suffers from <em>information erasure</em> caused by task interference.
   </p>
   <p>
-    We show that replacing post-hoc merging with an iterative
-    <strong>many-shot merging</strong> protocol significantly improves multi-task
-    capability by reducing abrupt parameter shifts.
+    In this work, we show that replacing post-hoc merging with an iterative
+    <strong>many-shot merging</strong> protocol significantly improves multi-task capability
+    by reducing abrupt parameter shifts.
     Building on this insight, we propose <strong>MS-LAC</strong>,
     a loss-aware many-shot merging method that stabilizes iterative integration
     via task-wise loss-gap weighting and consensus-based masking.
   </p>
 </section>
 
-<!-- Motivation -->
+<!-- ================= MOTIVATION ================= -->
 <section>
   <h3>Why Many-Shot Merging?</h3>
-  <img src="assets/manyshot_vs_posthoc.png" class="figure">
+
+  <img src="assets/intro_manyshot.png" class="figure">
+
   <p>
-    One-shot post-hoc merging introduces abrupt cross-task interference,
-    leading to severe information erasure.
-    Many-shot merging mitigates this issue by gradually integrating
-    task-specific models across rounds.
+    Post-hoc merging aggregates independently trained task models only once,
+    inducing abrupt cross-task interference and severe information erasure.
+    In contrast, many-shot merging integrates task-specific models iteratively,
+    enabling gradual adaptation to heterogeneous task objectives.
   </p>
 </section>
 
-<!-- Method -->
+<!-- ================= EMPIRICAL OBSERVATION ================= -->
 <section>
-  <h3>Method: MS-LAC</h3>
-  <img src="assets/framework.png" class="figure">
+  <h3>Empirical Evidence</h3>
+
+  <img src="assets/loss_posthoc_manyshot.png" class="figure">
+
+  <p>
+    Simply transitioning from post-hoc to many-shot merging consistently reduces
+    multi-task loss and improves normalized performance across representative
+    merging methods, including TaskArithmetic, DARE, TIES, and ConsensusTA.
+  </p>
+</section>
+
+<!-- ================= METHOD OVERVIEW ================= -->
+<section>
+  <h3>Method Overview: MS-LAC</h3>
+
+  <img src="assets/proposed_framework.jpeg" class="figure">
+
+  <p>
+    MS-LAC operates within the many-shot merging framework and introduces two key
+    mechanisms to mitigate information erasure during iterative integration.
+  </p>
 
   <ul>
-    <li><strong>Many-shot merging:</strong> iterative task integration over multiple rounds</li>
-    <li><strong>Loss-gap-aware weighting:</strong> prioritizes underperforming tasks</li>
-    <li><strong>Consensus-based masking:</strong> localizes compatible parameter updates</li>
+    <li>
+      <strong>Loss-Gap-Aware Weighting:</strong>
+      Rebalances task contributions by prioritizing tasks whose performance
+      deteriorates most after merging.
+    </li>
+    <li>
+      <strong>Consensus-Based Masking:</strong>
+      Localizes compatible parameter updates and suppresses conflicting task signals.
+    </li>
   </ul>
 </section>
 
-<!-- Results -->
+<!-- ================= MANY-SHOT VS POST-HOC ================= -->
 <section>
-  <h3>Results</h3>
-  <img src="assets/results.png" class="figure">
+  <h3>Post-hoc vs. Many-shot Merging</h3>
+
+  <img src="assets/proposed_manyshotframework.jpeg" class="figure">
+
   <p>
-    MS-LAC consistently outperforms post-hoc and many-shot baselines,
-    achieving higher average performance and significantly improving
-    the worst-performing task.
+    Unlike post-hoc merging, which aggregates fully trained task models in a single step,
+    many-shot merging repeatedly alternates between local adaptation and merging,
+    constraining task drift and enabling stable multi-task optimization.
   </p>
 </section>
 
-<!-- Contributions -->
+<!-- ================= RESULTS ================= -->
+<section>
+  <h3>Results</h3>
+
+  <img src="assets/loss_posthoc_manyshot.png" class="figure">
+
+  <p>
+    MS-LAC consistently outperforms both post-hoc and many-shot baselines,
+    achieving the highest average normalized performance across backbone models.
+    Notably, it significantly improves performance on the worst-performing task,
+    demonstrating strong robustness to information erasure.
+  </p>
+</section>
+
+<!-- ================= TASK-LEVEL ANALYSIS ================= -->
+<section>
+  <h3>Balanced Task-Level Performance</h3>
+
+  <img src="assets/task_radar_posthoc.jpeg" class="figure">
+
+  <p>
+    Radar plots across multiple backbone LLMs show that MS-LAC maintains
+    balanced performance across instruction following, mathematical reasoning,
+    multilingual understanding, and safety, without severe degradation on any task.
+  </p>
+</section>
+
+<!-- ================= CONTRIBUTIONS ================= -->
 <section>
   <h3>Contributions</h3>
   <ul>
-    <li>Show that many-shot merging alone improves multi-task capability</li>
+    <li>Show that many-shot merging alone significantly improves multi-task capability</li>
     <li>Propose loss-gap-aware task weighting to mitigate information erasure</li>
-    <li>Introduce MS-LAC with strong worst-case and OOD robustness</li>
+    <li>Introduce MS-LAC with strong worst-case and out-of-domain robustness</li>
+    <li>Demonstrate scalability across model families and sizes</li>
   </ul>
 </section>
 
-<!-- BibTeX -->
+<!-- ================= BIBTEX ================= -->
 <section>
   <h3>BibTeX</h3>
   <pre>
@@ -102,7 +167,7 @@
 </section>
 
 <footer>
-  <p>© 2026 MS-LAC Project</p>
+  <p>© 2026 MS-LAC Project Page</p>
 </footer>
 
 </body>
