@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MS-LAC: Towards Balanced Model Merging</title>
+    <title>METIS: Towards Balanced Model Merging</title>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+KR:wght@300;400;700&family=Roboto+Mono&display=swap" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
     <link rel="stylesheet" href="style.css">
@@ -17,22 +17,23 @@
                 <span class="highlight">Loss-Gap-Aware Many-Shot Model Merging</span>
             </h1>
             <div class="authors">Anonymous Authors</div>
-            <div class="venue">Project page for MS-LAC. Use the buttons below to access the paper and code.
+            <div class="venue">Project page for METIS. Use the buttons below to access the paper and code.
             </div>
             <div class="external-links">
-                <a href="#" class="btn btn-dark"><i class="fas fa-file-pdf"></i> Paper</a>
-                <a href="#" class="btn btn-dark"><i class="fab fa-github"></i> Code</a>
+                <a href="https://openreview.net/forum?id=ObJAI5sdZ3&referrer=%5Bthe%20profile%20of%20Kyungjin%20Im%5D(%2Fprofile%3Fid%3D~Kyungjin_Im1)" class="btn btn-dark"><i class="fas fa-file-pdf"></i> Paper</a>
+                <a href="https://github.com/anonymous-projectpage6/balanced-model-merging" class="btn btn-dark"><i class="fab fa-github"></i> Code</a>
                 <!-- <a href="#" class="btn btn-dark"><i class="fas fa-database"></i> MergeBench</a> -->
             </div>
         </div>
     </header>
 
+
     <main class="container">
-        <section class="section">
+        <section class="section" id="abstract">
             <h2 class="section-title">Abstract</h2>
             <div class="abstract-box">
                 <p>
-                    Model merging has become a practical post-training strategy for building a single multi-task large language model (LLM) by combining multiple task-specialized models, avoiding costly joint training. However, most existing approaches rely on post-hoc one-shot merging, in which task-specific models are merged only once after training. This one-shot aggregation often suffers from task interference, leading to <strong>information erasure</strong> across individual tasks. In this work, we show that replacing post-hoc merging with an iterative <strong>many-shot merging</strong> protocol is effective in improving multi-task performance. This improvement arises from gradually integrating task-specific models and reducing abrupt parameter shifts. Building on this insight, we propose <strong>MS-LAC</strong>, a loss-aware many-shot merging method that stabilizes iterative integration through task-wise loss-gap weighting and consensus-based masking. Through extensive empirical evaluation, we demonstrate that the proposed method outperforms baseline merging approaches. Notably, MS-LAC exhibits significant performance improvement on the worst-performing task, effectively mitigating information erasure.
+                    Model merging has become a practical post-training strategy for building a single multi-task large language model (LLM) by combining multiple task-specialized models, avoiding costly joint training. However, most existing approaches rely on post-hoc one-shot merging, in which task-specific models are merged only once after training. This one-shot aggregation often suffers from task interference, leading to <strong>information erasure</strong> across individual tasks. In this work, we show that replacing post-hoc merging with an iterative <strong>many-shot merging</strong> protocol is effective in improving multi-task performance. This improvement arises from gradually integrating task-specific models and reducing abrupt parameter shifts. Building on this insight, we propose <strong>METIS</strong>, <strong>M</strong>itigating <strong>E</strong>rasure from <strong>T</strong>ask <strong>I</strong>nterference for <strong>S</strong>table many-shot merging. METIS is a loss-aware many-shot merging method that stabilizes iterative integration through task-wise loss-gap weighting and consensus-based masking. Through extensive empirical evaluation, we demonstrate that the proposed method outperforms baseline merging approaches. Notably, METIS exhibits significant performance improvement on the worst-performing task, effectively mitigating information erasure.
                 </p>
             </div>
         </section>
@@ -67,22 +68,22 @@
                     Across representative merging methods—including TaskArithmetic, DARE, TIES, and ConsensusTA—simply transitioning from post-hoc to many-shot merging consistently improves multi-task performance on Llama-3.2-3B.
                     These results highlight a key insight:
                     <strong>Iterative integration itself is a crucial factor for mitigating information erasure in model merging.</strong>
-                    Building on this observation, we propose MS-LAC, which further stabilizes many-shot merging through loss-gap–aware task weighting and consensus-based masking, achieving stronger and more balanced multi-task capability.
+                    Building on this observation, we propose METIS, which further stabilizes many-shot merging through loss-gap–aware task weighting and consensus-based masking, achieving stronger and more balanced multi-task capability.
                 </p>
             </div>
         </section>
 
-        <section class="section">
-            <h2 class="section-title">Method: MS-LAC</h2>
+        <section class="section" id="method">
+            <h2 class="section-title">Method: METIS</h2>
             <div class="content-wrapper">
                 <p class="paragraph">
-                    We propose <strong>MS-LAC</strong> (Many-Shot Loss-Aware Consensus), a merging method designed to mitigate information erasure under the many-shot merging framework.
-                    Rather than naively applying iterative merging, MS-LAC stabilizes the integration process by balancing task contributions and localizing compatible parameter updates across merging rounds.
+                    We propose <strong>METIS</strong> (<strong>M</strong>itigating <strong>E</strong>rasure from <strong>T</strong>ask <strong>I</strong>nterference for <strong>S</strong>table many-shot merging), a merging method designed to mitigate information erasure under the many-shot merging framework.
+                    Rather than naively applying iterative merging, METIS stabilizes the integration process by balancing task contributions and localizing compatible parameter updates across merging rounds.
                 </p>
                 
                 <div class="figure-container">
-                    <img src="assets/proposed_framework.png" alt="MS-LAC Framework" class="responsive-img">
-                    <p class="caption">Figure 3. Overall framework of MS-LAC.</p>
+                    <img src="assets/proposed_framework.png" alt="METIS Framework" class="responsive-img">
+                    <p class="caption">Figure 3. Overall framework of METIS.</p>
                 </div>
 
                 <div class="grid-2">
@@ -90,7 +91,7 @@
                         <h3>1. Balancing Task Contributions via Loss-Gap Weighting</h3>
                         <p>
                             In many-shot merging, information erasure incurred for a specific task in one merging round can be compensated in subsequent rounds.
-                            Motivated by this observation, MS-LAC introduces task-wise loss-gap–aware weighting to dynamically rebalance task contributions during iterative aggregation.
+                            Motivated by this observation, METIS introduces task-wise loss-gap–aware weighting to dynamically rebalance task contributions during iterative aggregation.
                             At each merging round, the task-wise loss gap measures how much worse the current merged model fits a task compared to its locally adapted counterpart.
                             Tasks with larger loss gaps indicate more severely erased task-specific information and are therefore assigned larger merging weights, while well-represented tasks receive smaller weights.
                             By emphasizing underrepresented tasks, loss-gap–aware weighting enables more balanced integration of heterogeneous task updates.
@@ -100,7 +101,7 @@
                         <h3>2. Consensus-Based Masking</h3>
                         <p>
                             While loss-gap–aware weighting balances task contributions, parameter-level conflicts may still arise due to heterogeneous task objectives.
-                            To further reduce destructive interference, MS-LAC employs consensus-based masking to enhance task localization during merging.
+                            To further reduce destructive interference, METIS employs consensus-based masking to enhance task localization during merging.
 
                             Task-specific masks filter out parameter updates dominated by conflicting contributions from other tasks, and a consensus mask retains only updates consistently supported across multiple tasks.
                             This mechanism suppresses task-specific noise while preserving shared and compatible updates, enabling selective integration of parameters that are robust across tasks.
@@ -110,31 +111,42 @@
             </div>
         </section>
 
-        <section class="section">
+        <section class="section" id="results">
             <h2 class="section-title">Results</h2>
             <div class="content-wrapper">
                 <h3>Robustness and Balanced Performance</h3>
                 <p class="paragraph">
-                    Figure shows task-level performance across four backbone LLMs and four task categories.
+                    Figures show task-level performance across four backbone LLMs and four task categories.
                     Across all backbones, the proposed method consistently maintains balanced performance across tasks, without severe degradation on any individual category.
                     In contrast, post-hoc merging baselines exhibit imbalanced task integration caused by task interference and information erasure.
                 </p>
 
                 <div class="figure-container">
+                    <img src="assets/posthoc_manyshot_table.png"
+                         alt="Normalized performance comparison"
+                         class="responsive-img">
+                
+                    <p class="caption">
+                        Figure 3. Normalized performance of post-hoc (left) and many-shot (right) merging methods
+                        on Gemma-2-2B, Llama-3.2-3B, Llama-3.1-8B, and Gemma-2-9B across four task categories.
+                    </p>
+                </div>
+
+                <div class="figure-container">
                     <img src="assets/task_radar_posthoc.png" alt="Radar Charts Results" class="responsive-img">
-                    <p class="caption">Figure 3. Balanced Robustness: Radar charts comparing task-level performance across multiple backbones.</p>
+                    <p class="caption">Figure 4. Balanced Robustness: Radar charts comparing task-level performance across multiple backbones.</p>
                 </div>
 
                 <p class="paragraph">
-                    By rebalancing task contributions via loss-gap–aware weighting and localizing compatible updates through consensus-based masking, MS-LAC achieves more stable alignment of heterogeneous task objectives under iterative merging.
+                    By rebalancing task contributions via loss-gap–aware weighting and localizing compatible updates through consensus-based masking, METIS achieves more stable alignment of heterogeneous task objectives under iterative merging.
                     Notably, the proposed method shows significant improvement on the worst-performing task while maintaining strong average performance, demonstrating improved robustness to information erasure.
                 </p>
 
                 <div class="highlight-box">
                     <h4>Key Takeaways:</h4>
                     <ul>
-                        <li><strong>Balanced multi-task capability:</strong> MS-LAC achieves uniform performance across instruction, math, multilingual, and safety tasks, avoiding task-specific degradation observed in baseline methods.</li>
-                        <li><strong>Improved worst-case Robustness:</strong> MS-LAC achieves the highest performance on the worst-performing task, effectively mitigating information erasure.</li>
+                        <li><strong>Balanced multi-task capability:</strong> METIS achieves uniform performance across instruction, math, multilingual, and safety tasks, avoiding task-specific degradation observed in baseline methods.</li>
+                        <li><strong>Improved worst-case Robustness:</strong> METIS achieves the highest performance on the worst-performing task, effectively mitigating information erasure.</li>
                     </ul>
                 </div>
             </div>
