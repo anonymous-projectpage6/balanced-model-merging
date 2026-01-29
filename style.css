@@ -109,15 +109,13 @@ body {
     border-color: rgba(255,255,255,0.3);
 }
 
-/* --- Section Layout --- */
 .section {
     padding: 80px 0;
     border-bottom: 1px solid #f0f0f0;
 }
 
-/* Method 섹션 배경 수정: 흰색 유지하되 명암 대비 */
 .section.light-grey {
-    background-color: #ffffff; /* 배경은 흰색 */
+    background-color: #ffffff;
     box-shadow: inset 0 20px 40px rgba(0,0,0,0.02), inset 0 -20px 40px rgba(0,0,0,0.02); /* 내부 그림자로 대비 */
     border-top: 1px solid var(--border-color);
     border-bottom: 1px solid var(--border-color);
@@ -168,9 +166,8 @@ body {
     border-radius: 12px;
 }
 
-/* 특정 이미지 크기 축소 요청 반영 */
 .small-width {
-    max-width: 75%; /* 기본보다 작게 조정 */
+    max-width: 75%; 
     margin: 0 auto;
 }
 
@@ -215,7 +212,7 @@ body {
 }
 
 .highlight-box {
-    background: #f0fdfa; /* 매우 연한 틸색 배경 */
+    background: #f0fdfa; 
     padding: 30px;
     border-radius: 12px;
     border-left: 5px solid var(--primary-teal);
@@ -235,16 +232,14 @@ body {
     margin-bottom: 10px;
 }
 
-/* --- Figure Row (1행 2열 배치) --- */
 .figure-row {
     display: flex;
     justify-content: space-between;
-    align-items: center; /* 핵심: 자식 요소(이미지 박스)들을 수직 중앙으로 정렬 */
+    align-items: center; 
     gap: 50px;
     margin: 40px 0;
 }
 
-/* 기본적으로 두 컨테이너에 flex 속성을 부여하되 */
 .figure-row .figure-container {
     display: flex;
     flex-direction: column;
@@ -252,12 +247,10 @@ body {
     margin: 0;
 }
 
-/* 첫 번째 컨테이너(좌측)의 비율을 크게 설정 (예: 1.5배) */
 .figure-row .figure-container:first-child {
     flex: 1.25; 
 }
 
-/* 두 번째 컨테이너(우측)의 비율을 설정 */
 .figure-row .figure-container:last-child {
     flex: 0.9;
 }
@@ -265,30 +258,27 @@ body {
 .figure-row img {
     /* height: 300px; */
     width: 100%;
-    object-fit: contain; /* 이미지가 잘리지 않으면서 비율을 유지하며 맞춰짐 */
+    object-fit: contain; 
 }
 
-/* 캡션 글자 크기 조정 */
 .figure-row .caption {
     padding: 0 4%;
-    margin-top: 15px;      /* 이미지와 캡션 사이 간격 유지 */
+    margin-top: 15px;     
 }
 
-/* --- Mobile Responsive (모바일에서는 다시 세로로) --- */
 @media (max-width: 768px) {
     .figure-row {
-        flex-direction: column; /* 세로 배치로 변경 */
+        flex-direction: column; 
     }
 }
 
-/* Method 섹션 내의 이미지만 부모 너비에 꽉 차도록 설정 */
 section:nth-of-type(3) .figure-container .responsive-img {
     max-width: 100% !important;
 }
 
 /* --- BibTeX --- */
 .bibtex-box {
-    background-color: #1e1e1e; /* 다크 모드 스타일 */
+    background-color: #1e1e1e; 
     color: #e0e0e0;
     padding: 25px;
     border-radius: 10px;
